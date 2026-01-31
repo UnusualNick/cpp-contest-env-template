@@ -25,14 +25,26 @@ Additionally, a `template/` directory holds the base files used for generating n
 Use the provided `new_problem.sh` script to bootstrap a new problem directory. This will create the folder structure, copy the template, and prompt you to create initial test cases.
 
 ```bash
-./new_problem.sh <ProblemName> [NumberOfTests]
+./new_problem.sh <ProblemName> [NumberOfTests] [Description] [--no-edit]
 ```
 
-**Example:**
+**Arguments:**
+*   `ProblemName`: Name of the directory and main cpp file.
+*   `NumberOfTests`: (Optional) How many test pairs to create. Default: 1.
+*   `Description`: (Optional) Problem description to include as a comment in the cpp file.
+*   `--no-edit`: (Optional) Flag to skip opening the editor for the created tests.
+
+**Examples:**
 ```bash
+# Basic usage with 3 tests
 ./new_problem.sh F 3
+
+# With description
+./new_problem.sh G "Find the shortest path in a DAG."
+
+# With description and no editor prompt
+./new_problem.sh H 2 "Calculate Fibonacci." --no-edit
 ```
-This commands creates a directory `F`, generates `F.cpp` and `Makefile`, and opens editors for 3 pairs of test files (`.in` / `.out`).
 
 ### 2. Solving the Problem
 
@@ -58,11 +70,34 @@ make test
 ```
 
 This command will:
-1. Compile the code if necessary.
-2. Run the executable for each `.in` file in the `tests/` directory.
-3. Save the output to a `.myout` file.
-4. Compare it against the corresponding `.out` expected output file (if it exists).
-5. Report "Pass" or "Fail".
+1.  Compile the code if necessary.
+2.  Run the executable against `tests/*.in`.
+3.  **Enforce a 2-second time limit** (Reports TLE).
+4.  Check for **Runtime Errors** (Reports RTE).
+5.  Compare output against `.out` file.
+6.  If failed, display the **first 5 lines of mismatch**.
+
+### 5. Utilities
+
+#### Adding Extra Tests
+To add a new test case pair to an existing problem without verifying the whole setup:
+```bash
+./add_test.sh <ProblemName>
+```
+It finds the next available index and opens your editor.
+
+#### Stress Testing
+Use `stress.sh` to compare your optimized solution against a brute-force solution using a random input generator.
+
+```bash
+./stress.sh <SolutionExe> <BruteForceExe> <GeneratorScript> [Iterations]
+```
+
+**Example:**
+```bash
+./stress.sh ./A ./A_brute ./gen.py 1000
+```
+This runs until the outputs differ or the iteration count is reached.
 
 ## Configuration
 
