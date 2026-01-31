@@ -1,7 +1,27 @@
 #!/bin/bash
 
+# Parse optional flags
+OPEN_EDITOR=true
+ARGS=()
+
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --no-edit)
+            OPEN_EDITOR=false
+            shift
+            ;;
+        *)
+            ARGS+=("$1")
+            shift
+            ;;
+    esac
+done
+
+# Restore positional arguments
+set -- "${ARGS[@]}"
+
 if [ "$#" -lt 1 ]; then
-    echo "Usage: $0 <problem_name> [num_tests] [description...]"
+    echo "Usage: $0 <problem_name> [num_tests] [description...] [--no-edit]"
     exit 1
 fi
 
@@ -54,8 +74,10 @@ for i in $(seq 1 $NUM_TESTS); do
     touch "$PROBLEM_NAME/tests/$i.out"
     
     # Open files in default editor (fallback to nano if EDITOR not set)
-    ${EDITOR:-nano} "$PROBLEM_NAME/tests/$i.in"
-    ${EDITOR:-nano} "$PROBLEM_NAME/tests/$i.out"
+    if [ "$OPEN_EDITOR" = true ]; then
+        ${EDITOR:-nano} "$PROBLEM_NAME/tests/$i.in"
+        ${EDITOR:-nano} "$PROBLEM_NAME/tests/$i.out"
+    fi
 done
 
 echo "Created environment for $PROBLEM_NAME with $NUM_TESTS tests."
