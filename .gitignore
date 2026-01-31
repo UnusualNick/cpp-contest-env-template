@@ -1,0 +1,18 @@
+# Ignore everything by default
+*
+
+# Allow workspace tools and configuration
+!.gitignore
+!README.md
+!new_problem.sh
+!add_test.sh
+!stress.sh
+
+# Allow the template directory and its contents
+!template/
+!template/**
+
+# Ignore common build artifacts (precautionary)
+*.o
+*.out
+*.myout

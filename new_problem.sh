@@ -18,7 +18,6 @@ cp template/template.cpp "$PROBLEM_NAME/$PROBLEM_NAME.cpp"
 cp template/Makefile "$PROBLEM_NAME/Makefile"
 
 # Update Makefile with correct target name
-# We use a temporary file to be portable across BSD/GNU sed
 sed "s/PROBLEM_NAME/$PROBLEM_NAME/g" "$PROBLEM_NAME/Makefile" > "$PROBLEM_NAME/Makefile.tmp" && mv "$PROBLEM_NAME/Makefile.tmp" "$PROBLEM_NAME/Makefile"
 
 # Create empty test files
