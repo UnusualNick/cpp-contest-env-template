@@ -1,4 +1,4 @@
-# Complexity Analysis Course
+# Cpp contest template
 
 This repository contains a structured environment for solving and analyzing algorithmic problems. It provides a consistent workflow for creating new problem environments, writing solutions in C++, and verifying correctness through automated testing.
 
