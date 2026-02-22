@@ -82,3 +82,28 @@ done
 
 echo "Created environment for $PROBLEM_NAME with $NUM_TESTS tests."
 echo "cd $PROBLEM_NAME"
+
+# AI Agent Setup
+PROMPT_FILE="$PROBLEM_NAME/prompt.txt"
+SOLVE_SCRIPT="$PROBLEM_NAME/solve.sh"
+
+if [ -n "$DESCRIPTION" ]; then
+    echo "$DESCRIPTION" > "$PROMPT_FILE"
+else
+    echo "Problem: $PROBLEM_NAME" > "$PROMPT_FILE"
+    echo "Description not provided. Please add description here." >> "$PROMPT_FILE"
+fi
+
+cat <<EOF > "$SOLVE_SCRIPT"
+#!/bin/bash
+# Run copilot to solve task $PROBLEM_NAME
+if [ ! -f "prompt.txt" ]; then
+    echo "Error: prompt.txt not found."
+    exit 1
+fi
+
+copilot -i "Read the problem description from prompt.txt. Implement the solution in $PROBLEM_NAME.cpp. Ensure you handle input/output correctly as per the description. You can run 'make' to build and './$PROBLEM_NAME' to test manually, or use the provided tests."
+EOF
+
+chmod +x "$SOLVE_SCRIPT"
+echo "Created AI agent environment: $PROMPT_FILE and $SOLVE_SCRIPT"

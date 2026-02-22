@@ -7,6 +7,7 @@
 !new_problem.sh
 !add_test.sh
 !stress.sh
+!run_all.sh
 
 # Allow the template directory and its contents
 !template/
